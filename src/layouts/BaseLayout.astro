@@ -103,7 +103,35 @@ function isActive(href: string) {
 
     <!-- ── Footer ─────────────────────────────────────────────── -->
     <footer>
-      <p>© {new Date().getFullYear()} Thad Anderson</p>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="footer-name">Thad Anderson</p>
+          <p class="footer-tagline">percussionist, composer, &amp; arts leader</p>
+          <p class="footer-copy">© {new Date().getFullYear()} Thad Anderson</p>
+        </div>
+        <div class="footer-col">
+          <p class="footer-heading">Navigation</p>
+          <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/compositions">Compositions</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/teaching">Teaching</a></li>
+            <li><a href="/recordings">Recordings</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-heading">Music &amp; Social</p>
+          <ul>
+            <li><a href="https://thadanderson.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a></li>
+            <li><a href="https://soundcloud.com/thadanderson" target="_blank" rel="noopener">SoundCloud</a></li>
+            <li><a href="https://music.apple.com/us/album/lines-spaces-the-music-of-thad-anderson/1461787119" target="_blank" rel="noopener">Apple Music</a></li>
+            <li><a href="https://open.spotify.com/album/6mIsUB8k6oBftoCYFfxO1r?si=Mp4K7LJrQImq9zCf19ppgw" target="_blank" rel="noopener">Spotify</a></li>
+            <li><a href="https://www.youtube.com/thadanderson" target="_blank" rel="noopener">YouTube</a></li>
+            <li><a href="https://www.instagram.com/thadanderson" target="_blank" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
     </footer>
   </body>
 </html>
@@ -360,11 +388,75 @@ function isActive(href: string) {
 
   /* ── Footer ─────────────────────────────────────────────────── */
   footer {
-    border-top: 1px solid var(--border);
-    text-align: center;
-    padding: 1.5rem;
-    color: var(--muted);
+    background: var(--nav-bg);
+    margin-top: 4rem;
+  }
+
+  .footer-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-copy {
     font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0;
+  }
+
+  .footer-heading {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 0.85rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-col li {
+    margin-bottom: 0.45rem;
+  }
+
+  footer a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.15s;
+  }
+
+  footer a:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  @media (max-width: 680px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2rem 1rem;
+    }
   }
 
   /* ── Responsive ─────────────────────────────────────────────── */
