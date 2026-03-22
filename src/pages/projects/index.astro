@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+// Top-level project files
+const topLevel = import.meta.glob('../../content/Projects/*.md', { eager: false });
+// John Cage Early Recordings Collection overview
+const cageOverview = import.meta.glob(
+  '../../content/Projects/John Cage Early Recordings Collection/Overview.md',
+  { eager: false }
+);
+
+const projects: { title: string; slug: string }[] = [];
+
+for (const filePath of Object.keys(topLevel)) {
+  const filename = filePath.split('/').pop()!;
+  const title = filename.replace('.md', '');
+  projects.push({ title, slug: toSlug(title) });
+}
+
+// Add Cage collection if not already picked up
+if (Object.keys(cageOverview).length > 0) {
+  const cageTitle = 'John Cage Early Recordings Collection';
+  if (!projects.find((p) => p.title === cageTitle)) {
+    projects.push({ title: cageTitle, slug: toSlug(cageTitle) });
+  }
+}
+
+projects.sort((a, b) => a.title.localeCompare(b.title));
+---
+
+<BaseLayout title="Projects">
+  <div class="page-header">
+    <h1>Projects</h1>
+  </div>
+  <ul class="content-list">
+    {projects.map((p) => (
+      <li>
+        <a href={`/projects/${p.slug}`}>{p.title}</a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

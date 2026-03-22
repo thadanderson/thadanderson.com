@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const modules = import.meta.glob('../../content/Teaching/Teaching Overview.md', { eager: true });
+const { Content } = Object.values(modules)[0] as any;
+---
+
+<BaseLayout title="Teaching">
+  <div class="page-header">
+    <h1>Teaching</h1>
+  </div>
+  <Content />
+</BaseLayout>

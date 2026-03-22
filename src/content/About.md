@@ -1,0 +1,25 @@
+**Thad Anderson** (b. 1980) is an Associate Professor of Music at the [University of Central Florida](http://ucf.edu/) (UCF) where he coordinates the Percussion Studies program, teaches applied lessons, and directs both the UCF Percussion Ensemble and the New Music Ensemble. Joining the UCF faculty in 2009, Anderson also teaches courses in music technology and oversees the concert audio engineering team. His career blends performance, pedagogy, and technology, with a strong emphasis on contemporary music and composition.
+
+An accomplished solo, chamber, and orchestral musician, Anderson has contributed to numerous recordings, including releases on Cantaloupe, Naxos, Ravello Records, Flying Horse Records, and Innova labels. His performance credits include the Alterity Chamber Orchestra, Victoria Bach Festival, Austin Chamber Music Center, Round Top Festival-Institute, Syracuse Society for New Music, Make Music New York, Accidental Music Festival, Winter Park Bach Festival, Days of Percussion in Florida, Texas, Idaho, and Oklahoma, the Texas and Florida Music Educators Association convention, Percussive Arts Society International Convention, Austin, Waco, and Brevard Symphony Orchestras. Anderson has been a featured soloist with Conspirare, the Monroe Symphony Orchestra, UCF Wind Ensemble, and the Murray State University Wind Ensemble. Anderson is a sought-after clinician, lecturer, and performer, presenting across the United States and internationally as far as Bangkok, Thailand.
+
+As a composer, Anderson’s works encompass percussion, mixed chamber music, and multimedia. His compositions have been featured in award-winning documentary films like _Standard Deviation_ and _Finding Tyler_, as well as in full-dome theaters and museums worldwide in collaboration with [Christopher Brannan](https://christopherbrannan.com) and [Diana Reichenbach](https://dianareichenbach.com). He publishes his original works through Plus Two Media, with additional projects released through Universal Edition and Peters Edition. Dedicated to advancing new music, Anderson actively commissions and collaborates with composers such as Paul Lansky, Marc Mellits, Tiffany Connell, Zack Browning, Steven Snowden, Jonathan Kolm, John Serry, Martin Bresnick, Halim El-Dabh, and Travis Jeffords, fostering new works for percussion and chamber ensembles.
+
+Additionally, Anderson is highly active in the [Percussive Arts Society](http://www.pas.org/) (PAS) community where he currently serves as President of the Board of Directors and Executive Committee and contributes to the various PAS publications. He is also a frequent evaluator and faculty member at the [Music For All](http://musicforall.org/) National Percussion Festival and Summer Symposium and is on faculty at the [Boston University Tanglewood Institute](https://www.bu.edu/cfa/tanglewood/) in the summer. Dr. Anderson completed his undergraduate work in Music Education at the University of Central Florida and received his Master’s of Music and Doctorate of Music Arts in Percussion Performance from the University of Texas at Austin.
+
+Thad Anderson plays [Yamaha](http://www.yamaha.com/artists/percussion.html) percussion instruments, [Vic Firth](http://vicfirth.com/) sticks and mallets, [Zildjian](http://zildjian.com/) cymbals, and [Remo](http://remo.com/) drumheads.
+
+---
+# Short Biography
+**Thad Anderson** is an Associate Professor of Music at the University of Central Florida where he coordinates the Percussion Studies program, teaches applied lessons, and directs both the UCF Percussion Ensemble and the New Music Ensemble. Joining the UCF faculty in 2009, Anderson also teaches courses in music technology and oversees the concert audio engineering team. His career blends performance, pedagogy, and technology, with a strong emphasis on contemporary music and composition.
+
+An accomplished solo, chamber, and orchestral musician, Anderson frequently tours and makes appearances across the United States and as far as Bangkok, Thailand. He is active in the Percussive Arts Society community where he currently serves as President of the Board of Directors and Executive Committee and contributes to the various publications. He is a frequent evaluator and faculty member at the Music For All National Percussion Festival and Summer Symposium and teaches at the Boston University Tanglewood Institute in the summer. Dr. Anderson holds degrees from The University of Central Florida and The University of Texas at Austin. Anderson plays Yamaha instruments, Vic Firth implements, Zildjian cymbals, and Remo drumheads.
+
+---
+# Find Me
+In addition to this website, you can find creative work here:
+- [Bandcamp](https://thadanderson.bandcamp.com)
+- [Soundcloud](https://soundcloud.com/thadanderson)
+- [Apple Music](https://music.apple.com/us/album/lines-spaces-the-music-of-thad-anderson/1461787119)
+- [Spotify](https://open.spotify.com/album/6mIsUB8k6oBftoCYFfxO1r?si=Mp4K7LJrQImq9zCf19ppgw)
+- [YouTube](https://www.youtube.com/thadanderson)
+- [Instagram](http://www.instagram.com/thadanderson)

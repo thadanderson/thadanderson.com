@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export async function getStaticPaths() {
+  function toSlug(name: string) {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  // All teaching files except the overview
+  const allFiles = import.meta.glob('../../content/Teaching/**/*.md');
+
+  const paths = [];
+
+  for (const [filePath, loader] of Object.entries(allFiles)) {
+    const filename = filePath.split('/').pop()!;
+    const title = filename.replace('.md', '');
+    if (title === 'Teaching Overview') continue; // handled by index.astro
+    paths.push({
+      params: { slug: toSlug(title) },
+      props: { title, load: loader },
+    });
+  }
+
+  return paths;
+}
+
+const { title, load } = Astro.props as { title: string; load: () => Promise<any> };
+const { Content } = await load();
+---
+
+<BaseLayout title={`${title} — Teaching`}>
+  <div class="breadcrumb">
+    <a href="/teaching">← Teaching</a>
+  </div>
+  <div class="page-header">
+    <h1>{title}</h1>
+  </div>
+  <Content />
+</BaseLayout>

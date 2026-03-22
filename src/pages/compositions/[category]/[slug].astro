@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export async function getStaticPaths() {
+  function toSlug(name: string) {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  const allFiles = import.meta.glob('../../../content/Compositions/**/*.md');
+
+  const paths = [];
+
+  for (const [filePath, loader] of Object.entries(allFiles)) {
+    const parts = filePath.split('/');
+    const compIdx = parts.findIndex((p) => p === 'Compositions');
+    if (compIdx === -1) continue;
+    const remaining = parts.slice(compIdx + 1);
+    if (remaining.length < 2) continue; // root-level file
+
+    const categoryFolder = remaining[0];
+    const filename = remaining[remaining.length - 1];
+    if (!filename.endsWith('.md')) continue;
+
+    const title = filename.replace('.md', '');
+
+    paths.push({
+      params: {
+        category: toSlug(categoryFolder),
+        slug: toSlug(title),
+      },
+      props: { title, categoryName: categoryFolder, load: loader },
+    });
+  }
+
+  return paths;
+}
+
+const { category } = Astro.params;
+const { title, categoryName, load } = Astro.props as {
+  title: string;
+  categoryName: string;
+  load: () => Promise<any>;
+};
+
+const { Content } = await load();
+---
+
+<BaseLayout title={`${title} — Compositions`}>
+  <div class="breadcrumb">
+    <a href="/compositions">Compositions</a> /
+    <a href={`/compositions/${category}`}>{categoryName}</a>
+  </div>
+  <div class="page-header">
+    <h1>{title}</h1>
+  </div>
+  <Content />
+</BaseLayout>

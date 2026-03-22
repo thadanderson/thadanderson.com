@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export async function getStaticPaths() {
+  function toSlug(name: string) {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  const allFiles = import.meta.glob('../../../content/Compositions/**/*.md', { eager: false });
+
+  // Group compositions by category
+  const categories: Record<string, { name: string; compositions: { title: string; slug: string }[] }> = {};
+
+  for (const filePath of Object.keys(allFiles)) {
+    const parts = filePath.split('/');
+    const compIdx = parts.findIndex((p) => p === 'Compositions');
+    if (compIdx === -1) continue;
+    const remaining = parts.slice(compIdx + 1);
+    if (remaining.length < 2) continue; // root-level file (Overview & Purchase)
+
+    const categoryFolder = remaining[0];
+    const filename = remaining[remaining.length - 1];
+    if (!filename.endsWith('.md')) continue;
+
+    const title = filename.replace('.md', '');
+    const catSlug = toSlug(categoryFolder);
+
+    if (!categories[catSlug]) {
+      categories[catSlug] = { name: categoryFolder, compositions: [] };
+    }
+    categories[catSlug].compositions.push({ title, slug: toSlug(title) });
+  }
+
+  // Sort compositions alphabetically within each category
+  for (const cat of Object.values(categories)) {
+    cat.compositions.sort((a, b) => a.title.localeCompare(b.title));
+  }
+
+  return Object.entries(categories).map(([catSlug, data]) => ({
+    params: { category: catSlug },
+    props: { categoryName: data.name, compositions: data.compositions },
+  }));
+}
+
+const { category } = Astro.params;
+const { categoryName, compositions } = Astro.props as {
+  categoryName: string;
+  compositions: { title: string; slug: string }[];
+};
+---
+
+<BaseLayout title={`${categoryName} — Compositions`}>
+  <div class="breadcrumb">
+    <a href="/compositions">← Compositions</a>
+  </div>
+  <div class="page-header">
+    <h1>{categoryName}</h1>
+  </div>
+  <ul class="content-list">
+    {compositions.map((comp) => (
+      <li>
+        <a href={`/compositions/${category}/${comp.slug}`}>{comp.title}</a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

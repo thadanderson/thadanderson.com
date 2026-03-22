@@ -1,0 +1,355 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Thad Anderson',
+  description = 'Percussionist, composer, & arts leader',
+} = Astro.props;
+
+const pageTitle = title === 'Thad Anderson' ? title : `${title} | Thad Anderson`;
+const pathname = Astro.url.pathname;
+
+const nav = [
+  { label: 'About', href: '/about' },
+  {
+    label: 'Compositions',
+    href: '/compositions',
+    children: [
+      { label: 'Overview & Purchase', href: '/compositions' },
+      { label: 'Percussion', href: '/compositions/percussion' },
+      { label: 'Mixed Chamber', href: '/compositions/mixed-chamber' },
+      { label: 'Multi-Media', href: '/compositions/multi-media' },
+      { label: 'Piano', href: '/compositions/piano' },
+      { label: 'Open Instrumentation', href: '/compositions/open-instrumentation' },
+    ],
+  },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Teaching', href: '/teaching' },
+  { label: 'Recordings', href: '/recordings' },
+  { label: 'Contact', href: '/contact' },
+];
+
+function isActive(href: string) {
+  return pathname === href || (href !== '/' && pathname.startsWith(href + '/'));
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <!-- ── Navigation ─────────────────────────────────────────── -->
+    <header>
+      <nav>
+        <a href="/" class="site-title">Thad Anderson</a>
+        <ul class="nav-list">
+          {nav.map((item) => (
+            <li class={item.children ? 'has-dropdown' : ''}>
+              <a href={item.href} class={isActive(item.href) ? 'active' : ''}>
+                {item.label}
+              </a>
+              {item.children && (
+                <ul class="dropdown">
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.href} class={isActive(child.href) ? 'active' : ''}>
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+
+    <!-- ── Content ────────────────────────────────────────────── -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- ── Footer ─────────────────────────────────────────────── -->
+    <footer>
+      <p>© {new Date().getFullYear()} Thad Anderson</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  /* ── Reset & variables ───────────────────────────────────────── */
+  :root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #666;
+    --accent: #2a4a7f;
+    --border: #e2e2e2;
+    --nav-bg: #1a1a1a;
+    --nav-text: rgba(255, 255, 255, 0.85);
+    --nav-text-active: #ffffff;
+    --max-w: 900px;
+    --nav-h: 58px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+
+  /* ── Header / Nav ────────────────────────────────────────────── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--nav-bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  nav {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .site-title {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .nav-list > li {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-list > li > a {
+    color: var(--nav-text);
+    text-decoration: none;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    transition: color 0.15s;
+  }
+
+  .nav-list > li > a:hover,
+  .nav-list > li > a.active {
+    color: var(--nav-text-active);
+  }
+
+  /* Dropdown */
+  .has-dropdown .dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 210px;
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    z-index: 200;
+  }
+
+  .has-dropdown:hover .dropdown {
+    display: block;
+  }
+
+  .dropdown li a {
+    display: block;
+    padding: 0.55rem 1rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+
+  .dropdown li:last-child a {
+    border-bottom: none;
+  }
+
+  .dropdown li a:hover,
+  .dropdown li a.active {
+    background: #f5f5f5;
+    color: var(--accent);
+  }
+
+  /* ── Main content ────────────────────────────────────────────── */
+  main {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  /* ── Typography ─────────────────────────────────────────────── */
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+    margin-top: 2rem;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+
+  h1:first-child,
+  h2:first-child,
+  h3:first-child {
+    margin-top: 0;
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.2rem; }
+
+  p {
+    margin-bottom: 1rem;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  main ul, main ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  main li {
+    margin-bottom: 0.25rem;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  /* Embedded iframes */
+  iframe {
+    max-width: 100%;
+    margin: 1rem 0;
+    display: block;
+  }
+
+  /* ── Page-level helpers ──────────────────────────────────────── */
+  .page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.25rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .breadcrumb a {
+    color: var(--muted);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--accent);
+  }
+
+  /* Composition / project listing */
+  .content-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .content-list li {
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 0;
+    margin: 0;
+  }
+
+  .content-list li:last-child {
+    border-bottom: none;
+  }
+
+  .content-list a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .content-list a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Footer ─────────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────────── */
+  @media (max-width: 680px) {
+    .site-title { font-size: 0.9rem; }
+    .nav-list > li > a { padding: 0 0.5rem; font-size: 0.8rem; }
+    main { padding: 2rem 1rem 3rem; }
+    h1 { font-size: 1.6rem; }
+  }
+</style>

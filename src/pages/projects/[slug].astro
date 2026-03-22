@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export async function getStaticPaths() {
+  function toSlug(name: string) {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  const topLevel = import.meta.glob('../../content/Projects/*.md');
+  const cageOverview = import.meta.glob(
+    '../../content/Projects/John Cage Early Recordings Collection/Overview.md'
+  );
+
+  const paths = [];
+
+  for (const [filePath, loader] of Object.entries(topLevel)) {
+    const filename = filePath.split('/').pop()!;
+    const title = filename.replace('.md', '');
+    paths.push({
+      params: { slug: toSlug(title) },
+      props: { title, load: loader },
+    });
+  }
+
+  // John Cage Early Recordings Collection (uses its Overview.md)
+  for (const [, loader] of Object.entries(cageOverview)) {
+    const title = 'John Cage Early Recordings Collection';
+    const slug = toSlug(title);
+    if (!paths.find((p) => p.params.slug === slug)) {
+      paths.push({ params: { slug }, props: { title, load: loader } });
+    }
+  }
+
+  return paths;
+}
+
+const { title, load } = Astro.props as { title: string; load: () => Promise<any> };
+const { Content } = await load();
+---
+
+<BaseLayout title={title}>
+  <div class="breadcrumb">
+    <a href="/projects">← Projects</a>
+  </div>
+  <div class="page-header">
+    <h1>{title}</h1>
+  </div>
+  <Content />
+</BaseLayout>
