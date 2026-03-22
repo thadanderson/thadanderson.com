@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, 'and')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export async function getStaticPaths() {
+  function toSlug(name: string) {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/&/g, 'and')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  const allFiles = import.meta.glob('../../../content/Projects/**/*.md');
+
+  const folders = new Map<string, {
+    name: string;
+    overview: (() => Promise<any>) | null;
+    pages: { title: string; slug: string }[];
+  }>();
+
+  for (const [filePath, loader] of Object.entries(allFiles)) {
+    const parts = filePath.split('/');
+    const projectsIdx = parts.indexOf('Projects');
+    const remaining = parts.slice(projectsIdx + 1);
+    if (remaining.length < 2) continue; // skip root-level files
+
+    const folderName = remaining[0];
+    const folderSlug = toSlug(folderName);
+
+    if (!folders.has(folderSlug)) {
+      folders.set(folderSlug, { name: folderName, overview: null, pages: [] });
+    }
+
+    if (remaining.length === 2) {
+      // Direct child of the folder
+      const pageTitle = remaining[1].replace('.md', '');
+      if (pageTitle === 'Overview') {
+        folders.get(folderSlug)!.overview = loader as () => Promise<any>;
+      } else {
+        folders.get(folderSlug)!.pages.push({ title: pageTitle, slug: toSlug(pageTitle) });
+      }
+    }
+    // Files deeper than 2 levels are not listed here (handled elsewhere)
+  }
+
+  return Array.from(folders.entries()).map(([folderSlug, data]) => ({
+    params: { folder: folderSlug },
+    props: { folderName: data.name, overviewLoader: data.overview, pages: data.pages },
+  }));
+}
+
+const { folder } = Astro.params;
+const { folderName, overviewLoader, pages } = Astro.props as {
+  folderName: string;
+  overviewLoader: (() => Promise<any>) | null;
+  pages: { title: string; slug: string }[];
+};
+
+const { Content } = overviewLoader ? await overviewLoader() : { Content: null };
+---
+
+<BaseLayout title={`${folderName} — Projects`}>
+  <div class="breadcrumb">
+    <a href="/projects">← Projects</a>
+  </div>
+  <div class="page-header">
+    <h1>{folderName}</h1>
+  </div>
+  {Content && <Content />}
+  {pages.length > 0 && (
+    <ul class="content-list">
+      {pages.map((p) => (
+        <li>
+          <a href={`/projects/${folder}/${p.slug}`}>{p.title}</a>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>

@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 function toSlug(name: string) {
   return name
@@ -26,32 +26,42 @@ export async function getStaticPaths() {
       .replace(/^-|-$/g, '');
   }
 
-  const allFiles = import.meta.glob('../../content/Projects/**/*.md');
+  const allFiles = import.meta.glob('../../../content/Projects/**/*.md');
   const paths = [];
 
   for (const [filePath, loader] of Object.entries(allFiles)) {
     const parts = filePath.split('/');
     const projectsIdx = parts.indexOf('Projects');
     const remaining = parts.slice(projectsIdx + 1);
-    if (remaining.length !== 1) continue; // root-level files only
+    if (remaining.length !== 2) continue; // only direct children of a subfolder
 
-    const title = remaining[0].replace('.md', '');
+    const folderName = remaining[0];
+    const pageTitle = remaining[1].replace('.md', '');
+    if (pageTitle === 'Overview') continue; // handled by [folder]/index.astro
+
     paths.push({
-      params: { slug: toSlug(title) },
-      props: { title, load: loader },
+      params: { folder: toSlug(folderName), slug: toSlug(pageTitle) },
+      props: { title: pageTitle, folderName, load: loader },
     });
   }
 
   return paths;
 }
 
-const { title, load } = Astro.props as { title: string; load: () => Promise<any> };
+const { folder } = Astro.params;
+const { title, folderName, load } = Astro.props as {
+  title: string;
+  folderName: string;
+  load: () => Promise<any>;
+};
 const { Content } = await load();
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={`${title} — ${folderName}`}>
   <div class="breadcrumb">
-    <a href="/projects">← Projects</a>
+    <a href="/projects">Projects</a>
+    {' › '}
+    <a href={`/projects/${folder}`}>{folderName}</a>
   </div>
   <div class="page-header">
     <h1>{title}</h1>
