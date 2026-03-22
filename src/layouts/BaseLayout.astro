@@ -45,14 +45,7 @@ const nav = [
     href: '/teaching',
     children: [
       { label: 'Teaching Overview', href: '/teaching' },
-      {
-        label: 'Clinics & Presentations',
-        children: [
-          { label: 'Choose Your Sound', href: '/teaching/choose-your-sound' },
-          { label: "Liz Lerman's Critical Response Process", href: '/teaching/liz-lermans-critical-response-process' },
-          { label: 'Percussion Analytics', href: '/teaching/percussion-analytics' },
-        ],
-      },
+      { label: 'Clinics & Presentations', href: '/teaching/clinics-and-presentations' },
     ],
   },
   { label: 'Recordings', href: '/recordings' },
@@ -87,25 +80,10 @@ function isActive(href: string) {
               {item.children && (
                 <ul class="dropdown">
                   {item.children.map((child) => (
-                    <li class={child.children ? 'has-submenu' : ''}>
-                      {child.children ? (
-                        <>
-                          <span>{child.label}</span>
-                          <ul class="submenu">
-                            {child.children.map((grandchild) => (
-                              <li>
-                                <a href={grandchild.href} class={isActive(grandchild.href) ? 'active' : ''}>
-                                  {grandchild.label}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      ) : (
-                        <a href={child.href} class={isActive(child.href) ? 'active' : ''}>
-                          {child.label}
-                        </a>
-                      )}
+                    <li>
+                      <a href={child.href} class={isActive(child.href) ? 'active' : ''}>
+                        {child.label}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -279,66 +257,6 @@ function isActive(href: string) {
     color: var(--accent);
   }
 
-  /* Submenu (second level) */
-  .dropdown li.has-submenu {
-    position: relative;
-  }
-
-  .dropdown li.has-submenu > span {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.55rem 1rem;
-    color: var(--muted);
-    font-size: 0.875rem;
-    border-bottom: 1px solid var(--border);
-    cursor: default;
-    user-select: none;
-  }
-
-  .dropdown li.has-submenu > span::after {
-    content: '›';
-    margin-left: 0.75rem;
-    font-size: 1rem;
-    line-height: 1;
-  }
-
-  .dropdown li.has-submenu > .submenu {
-    display: none;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    min-width: 240px;
-    background: #fff;
-    border: 1px solid var(--border);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    z-index: 300;
-  }
-
-  .dropdown li.has-submenu:hover > .submenu {
-    display: block;
-  }
-
-  .submenu li a {
-    display: block;
-    padding: 0.55rem 1rem;
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.875rem;
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-  }
-
-  .submenu li:last-child a {
-    border-bottom: none;
-  }
-
-  .submenu li a:hover,
-  .submenu li a.active {
-    background: #f5f5f5;
-    color: var(--accent);
-  }
 
   /* ── Main content ────────────────────────────────────────────── */
   main {

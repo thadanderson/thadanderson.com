@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+const allFiles = import.meta.glob('../../content/Teaching/Clinics & Presentations/*.md', { eager: false });
+
+const pages = Object.keys(allFiles).map((filePath) => {
+  const filename = filePath.split('/').pop()!.replace('.md', '');
+  return { title: filename, slug: toSlug(filename) };
+}).sort((a, b) => a.title.localeCompare(b.title));
+---
+
+<BaseLayout title="Clinics & Presentations — Teaching">
+  <div class="breadcrumb">
+    <a href="/teaching">← Teaching</a>
+  </div>
+  <div class="page-header">
+    <h1>Clinics &amp; Presentations</h1>
+  </div>
+  <ul class="content-list">
+    {pages.map((page) => (
+      <li>
+        <a href={`/teaching/${page.slug}`}>{page.title}</a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
