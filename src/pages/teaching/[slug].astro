@@ -24,31 +24,52 @@ export async function getStaticPaths() {
       .replace(/^-|-$/g, '');
   }
 
-  // All teaching files except the overview
   const allFiles = import.meta.glob('../../content/Teaching/**/*.md');
 
   const paths = [];
 
   for (const [filePath, loader] of Object.entries(allFiles)) {
-    const filename = filePath.split('/').pop()!;
+    const parts = filePath.split('/');
+    const filename = parts.pop()!;
     const title = filename.replace('.md', '');
-    if (title === 'Teaching Overview') continue; // handled by index.astro
+    if (title === 'Teaching Overview') continue;
+
+    // Determine if the file is inside a subfolder of Teaching/
+    const teachingIdx = parts.indexOf('Teaching');
+    const subfolders = teachingIdx !== -1 ? parts.slice(teachingIdx + 1) : [];
+    // subfolders has entries between Teaching/ and the filename; if any exist, it's a subfolder
+    const parentFolder = subfolders.length > 0 ? subfolders[0] : null;
+
     paths.push({
       params: { slug: toSlug(title) },
-      props: { title, load: loader },
+      props: { title, load: loader, parentFolder },
     });
   }
 
   return paths;
 }
 
-const { title, load } = Astro.props as { title: string; load: () => Promise<any> };
+const { title, load, parentFolder } = Astro.props as {
+  title: string;
+  load: () => Promise<any>;
+  parentFolder: string | null;
+};
 const { Content } = await load();
+
+const parentSlug = parentFolder ? toSlug(parentFolder) : null;
 ---
 
 <BaseLayout title={`${title} — Teaching`}>
   <div class="breadcrumb">
-    <a href="/teaching">← Teaching</a>
+    {parentFolder && parentSlug ? (
+      <>
+        <a href="/teaching">Teaching</a>
+        {' › '}
+        <a href={`/teaching/${parentSlug}`}>{parentFolder}</a>
+      </>
+    ) : (
+      <a href="/teaching">← Teaching</a>
+    )}
   </div>
   <div class="page-header">
     <h1>{title}</h1>
