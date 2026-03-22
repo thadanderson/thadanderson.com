@@ -334,6 +334,27 @@ function isActive(href: string) {
     display: block;
   }
 
+  /* Embedded PDFs */
+  .pdf-embed {
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .pdf-embed embed {
+    display: block;
+    width: 100%;
+  }
+
+  .pdf-fallback {
+    margin: 0;
+    padding: 0.5rem 1rem;
+    background: #f9f9f9;
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+
   /* ── Page-level helpers ──────────────────────────────────────── */
   .page-header {
     margin-bottom: 2rem;

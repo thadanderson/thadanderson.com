@@ -114,13 +114,24 @@ const pageMap = buildPageMap();
 
 // ─── Resolvers ────────────────────────────────────────────────────────────────
 
-function resolveImage(filename) {
+const MEDIA_EXTS = new Set(['.pdf', '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.avif', '.mp3', '.mp4']);
+
+function getExt(filename) {
+  const dot = filename.trim().lastIndexOf('.');
+  return dot !== -1 ? filename.trim().slice(dot).toLowerCase() : '';
+}
+
+function resolveMedia(filename) {
   const lower = filename.trim().toLowerCase();
   return imageMap.get(lower) ?? `/media/${filename.trim()}`;
 }
 
 function resolveLink(name) {
   const lower = name.trim().toLowerCase();
+  // If it looks like a media file, link directly to it
+  if (MEDIA_EXTS.has(getExt(lower))) {
+    return resolveMedia(name);
+  }
   if (pageMap.has(lower)) return pageMap.get(lower);
   // Try just the basename (handles "Compositions/Percussion/Passages" → "passages")
   const base = lower.split('/').pop();
@@ -145,14 +156,25 @@ function processText(text) {
     const inner = match[2];
 
     if (isEmbed) {
-      // ![[image.ext]] or ![[image.ext|size]]
+      // ![[file.ext]] or ![[file.ext|size]]
       const [filename, sizeStr] = inner.split('|');
-      const src = resolveImage(filename);
-      const widthAttr = sizeStr ? ` width="${sizeStr.trim()}"` : '';
-      nodes.push({
-        type: 'html',
-        value: `<img src="${src}" alt="${filename.trim()}"${widthAttr} style="max-width:100%;height:auto;" />`,
-      });
+      const src = resolveMedia(filename);
+      const ext = getExt(filename);
+
+      if (ext === '.pdf') {
+        // Embed PDF as a viewer with a fallback link
+        nodes.push({
+          type: 'html',
+          value: `<div class="pdf-embed"><embed src="${src}" type="application/pdf" width="100%" height="800" /><p class="pdf-fallback"><a href="${src}" target="_blank" rel="noopener">Open PDF in new tab ↗</a></p></div>`,
+        });
+      } else {
+        // Render as image
+        const widthAttr = sizeStr ? ` width="${sizeStr.trim()}"` : '';
+        nodes.push({
+          type: 'html',
+          value: `<img src="${src}" alt="${filename.trim()}"${widthAttr} style="max-width:100%;height:auto;" />`,
+        });
+      }
     } else {
       // [[Page Name]] or [[Page Name|Display Text]]
       const [pageName, displayText] = inner.split('|');
