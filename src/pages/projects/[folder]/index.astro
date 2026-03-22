@@ -32,6 +32,7 @@ export async function getStaticPaths() {
     name: string;
     overview: (() => Promise<any>) | null;
     pages: { title: string; slug: string }[];
+    subfolders: { name: string; slug: string }[];
   }>();
 
   for (const [filePath, loader] of Object.entries(allFiles)) {
@@ -44,35 +45,54 @@ export async function getStaticPaths() {
     const folderSlug = toSlug(folderName);
 
     if (!folders.has(folderSlug)) {
-      folders.set(folderSlug, { name: folderName, overview: null, pages: [] });
+      folders.set(folderSlug, { name: folderName, overview: null, pages: [], subfolders: [] });
     }
 
+    const entry = folders.get(folderSlug)!;
+
     if (remaining.length === 2) {
-      // Direct child of the folder
+      // Direct .md child of the folder
       const pageTitle = remaining[1].replace('.md', '');
       if (pageTitle === 'Overview') {
-        folders.get(folderSlug)!.overview = loader as () => Promise<any>;
+        entry.overview = loader as () => Promise<any>;
       } else {
-        folders.get(folderSlug)!.pages.push({ title: pageTitle, slug: toSlug(pageTitle) });
+        entry.pages.push({ title: pageTitle, slug: toSlug(pageTitle) });
+      }
+    } else if (remaining.length >= 3) {
+      // File inside a sub-subfolder — record the sub-subfolder once
+      const subfolderName = remaining[1];
+      const subfolderSlug = toSlug(subfolderName);
+      if (!entry.subfolders.find((s) => s.slug === subfolderSlug)) {
+        entry.subfolders.push({ name: subfolderName, slug: subfolderSlug });
       }
     }
-    // Files deeper than 2 levels are not listed here (handled elsewhere)
   }
 
   return Array.from(folders.entries()).map(([folderSlug, data]) => ({
     params: { folder: folderSlug },
-    props: { folderName: data.name, overviewLoader: data.overview, pages: data.pages },
+    props: {
+      folderName: data.name,
+      overviewLoader: data.overview,
+      pages: data.pages,
+      subfolders: data.subfolders,
+    },
   }));
 }
 
 const { folder } = Astro.params;
-const { folderName, overviewLoader, pages } = Astro.props as {
+const { folderName, overviewLoader, pages, subfolders } = Astro.props as {
   folderName: string;
   overviewLoader: (() => Promise<any>) | null;
   pages: { title: string; slug: string }[];
+  subfolders: { name: string; slug: string }[];
 };
 
 const { Content } = overviewLoader ? await overviewLoader() : { Content: null };
+
+const allItems = [
+  ...pages.map((p) => ({ title: p.title, href: `/projects/${folder}/${p.slug}` })),
+  ...subfolders.map((s) => ({ title: s.name, href: `/projects/${folder}/${s.slug}` })),
+].sort((a, b) => a.title.localeCompare(b.title));
 ---
 
 <BaseLayout title={`${folderName} — Projects`}>
@@ -83,11 +103,11 @@ const { Content } = overviewLoader ? await overviewLoader() : { Content: null };
     <h1>{folderName}</h1>
   </div>
   {Content && <Content />}
-  {pages.length > 0 && (
+  {allItems.length > 0 && (
     <ul class="content-list">
-      {pages.map((p) => (
+      {allItems.map((item) => (
         <li>
-          <a href={`/projects/${folder}/${p.slug}`}>{p.title}</a>
+          <a href={item.href}>{item.title}</a>
         </li>
       ))}
     </ul>

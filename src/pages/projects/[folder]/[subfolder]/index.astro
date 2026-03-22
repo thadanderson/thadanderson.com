@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, 'and')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export async function getStaticPaths() {
+  function toSlug(name: string) {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/&/g, 'and')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  const allFiles = import.meta.glob('../../../../content/Projects/**/*.md');
+
+  const subfolders = new Map<string, {
+    folderName: string;
+    subfolderName: string;
+    overview: (() => Promise<any>) | null;
+    pages: { title: string; slug: string }[];
+  }>();
+
+  for (const [filePath, loader] of Object.entries(allFiles)) {
+    const parts = filePath.split('/');
+    const projectsIdx = parts.indexOf('Projects');
+    const remaining = parts.slice(projectsIdx + 1);
+    if (remaining.length < 3) continue; // must be inside a sub-subfolder
+
+    const folderName = remaining[0];
+    const subfolderName = remaining[1];
+    const key = `${toSlug(folderName)}__${toSlug(subfolderName)}`;
+
+    if (!subfolders.has(key)) {
+      subfolders.set(key, { folderName, subfolderName, overview: null, pages: [] });
+    }
+
+    if (remaining.length === 3) {
+      const pageTitle = remaining[2].replace('.md', '');
+      const entry = subfolders.get(key)!;
+      if (pageTitle === 'Overview') {
+        entry.overview = loader as () => Promise<any>;
+      } else {
+        entry.pages.push({ title: pageTitle, slug: toSlug(pageTitle) });
+      }
+    }
+  }
+
+  return Array.from(subfolders.entries()).map(([, data]) => ({
+    params: {
+      folder: toSlug(data.folderName),
+      subfolder: toSlug(data.subfolderName),
+    },
+    props: {
+      folderName: data.folderName,
+      subfolderName: data.subfolderName,
+      overviewLoader: data.overview,
+      pages: data.pages,
+    },
+  }));
+}
+
+const { folder, subfolder } = Astro.params;
+const { folderName, subfolderName, overviewLoader, pages } = Astro.props as {
+  folderName: string;
+  subfolderName: string;
+  overviewLoader: (() => Promise<any>) | null;
+  pages: { title: string; slug: string }[];
+};
+
+const { Content } = overviewLoader ? await overviewLoader() : { Content: null };
+---
+
+<BaseLayout title={`${subfolderName} — ${folderName}`}>
+  <div class="breadcrumb">
+    <a href="/projects">Projects</a>
+    {' › '}
+    <a href={`/projects/${folder}`}>{folderName}</a>
+  </div>
+  <div class="page-header">
+    <h1>{subfolderName}</h1>
+  </div>
+  {Content && <Content />}
+  {pages.length > 0 && (
+    <ul class="content-list">
+      {pages.map((p) => (
+        <li>
+          <a href={`/projects/${folder}/${subfolder}/${p.slug}`}>{p.title}</a>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>

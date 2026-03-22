@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+function toSlug(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, 'and')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export async function getStaticPaths() {
+  function toSlug(name: string) {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/&/g, 'and')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  const allFiles = import.meta.glob('../../../../content/Projects/**/*.md');
+  const paths = [];
+
+  for (const [filePath, loader] of Object.entries(allFiles)) {
+    const parts = filePath.split('/');
+    const projectsIdx = parts.indexOf('Projects');
+    const remaining = parts.slice(projectsIdx + 1);
+    if (remaining.length !== 3) continue; // only direct children of sub-subfolders
+
+    const folderName = remaining[0];
+    const subfolderName = remaining[1];
+    const pageTitle = remaining[2].replace('.md', '');
+    if (pageTitle === 'Overview') continue; // handled by [subfolder]/index.astro
+
+    paths.push({
+      params: {
+        folder: toSlug(folderName),
+        subfolder: toSlug(subfolderName),
+        slug: toSlug(pageTitle),
+      },
+      props: { title: pageTitle, folderName, subfolderName, load: loader },
+    });
+  }
+
+  return paths;
+}
+
+const { folder, subfolder } = Astro.params;
+const { title, folderName, subfolderName, load } = Astro.props as {
+  title: string;
+  folderName: string;
+  subfolderName: string;
+  load: () => Promise<any>;
+};
+const { Content } = await load();
+---
+
+<BaseLayout title={`${title} — ${subfolderName}`}>
+  <div class="breadcrumb">
+    <a href="/projects">Projects</a>
+    {' › '}
+    <a href={`/projects/${folder}`}>{folderName}</a>
+    {' › '}
+    <a href={`/projects/${folder}/${subfolder}`}>{subfolderName}</a>
+  </div>
+  <div class="page-header">
+    <h1>{title}</h1>
+  </div>
+  <Content />
+</BaseLayout>
