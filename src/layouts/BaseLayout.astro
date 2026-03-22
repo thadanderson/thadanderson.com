@@ -26,8 +26,30 @@ const nav = [
       { label: 'Open Instrumentation', href: '/compositions/open-instrumentation' },
     ],
   },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Teaching', href: '/teaching' },
+  {
+    label: 'Projects',
+    href: '/projects',
+    children: [
+      { label: 'Answers', href: '/projects/answers' },
+      { label: 'Buch der Räume und Zeiten', href: '/projects/buch-der-raume-und-zeiten-by-jurg-frey' },
+      { label: 'Commissioning', href: '/projects/commissioning' },
+      { label: 'Early American Percussion Ensemble', href: '/projects/early-american-percussion-ensemble' },
+      { label: 'John Cage Early Recordings Collection', href: '/projects/john-cage-early-recordings-collection' },
+      { label: "John Cage's Fourth Construction", href: '/projects/john-cages-fourth-construction' },
+      { label: 'Lou Harrison Percussion Instrument Collection', href: '/projects/lou-harrison-percussion-instrument-collection' },
+      { label: 'Vibra-Kit', href: '/projects/vibra-kit' },
+    ],
+  },
+  {
+    label: 'Teaching',
+    href: '/teaching',
+    children: [
+      { label: 'Teaching Overview', href: '/teaching' },
+      { label: 'Choose Your Sound', href: '/teaching/choose-your-sound' },
+      { label: "Liz Lerman's Critical Response Process", href: '/teaching/liz-lermans-critical-response-process' },
+      { label: 'Percussion Analytics', href: '/teaching/percussion-analytics' },
+    ],
+  },
   { label: 'Recordings', href: '/recordings' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -175,7 +197,7 @@ function isActive(href: string) {
   .has-dropdown .dropdown {
     display: none;
     position: absolute;
-    top: calc(100% + 8px);
+    top: 100%;
     left: 0;
     min-width: 210px;
     background: #fff;
