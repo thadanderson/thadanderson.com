@@ -13,13 +13,3 @@ Thad Anderson plays [Yamaha](http://www.yamaha.com/artists/percussion.html) pe
 **Thad Anderson** is an Associate Professor of Music at the University of Central Florida where he coordinates the Percussion Studies program, teaches applied lessons, and directs both the UCF Percussion Ensemble and the New Music Ensemble. Joining the UCF faculty in 2009, Anderson also teaches courses in music technology and oversees the concert audio engineering team. His career blends performance, pedagogy, and technology, with a strong emphasis on contemporary music and composition.
 
 An accomplished solo, chamber, and orchestral musician, Anderson frequently tours and makes appearances across the United States and as far as Bangkok, Thailand. He is active in the Percussive Arts Society community where he currently serves as President of the Board of Directors and Executive Committee and contributes to the various publications. He is a frequent evaluator and faculty member at the Music For All National Percussion Festival and Summer Symposium and teaches at the Boston University Tanglewood Institute in the summer. Dr. Anderson holds degrees from The University of Central Florida and The University of Texas at Austin. Anderson plays Yamaha instruments, Vic Firth implements, Zildjian cymbals, and Remo drumheads.
-
----
-# Find Me
-In addition to this website, you can find creative work here:
-- [Bandcamp](https://thadanderson.bandcamp.com)
-- [Soundcloud](https://soundcloud.com/thadanderson)
-- [Apple Music](https://music.apple.com/us/album/lines-spaces-the-music-of-thad-anderson/1461787119)
-- [Spotify](https://open.spotify.com/album/6mIsUB8k6oBftoCYFfxO1r?si=Mp4K7LJrQImq9zCf19ppgw)
-- [YouTube](https://www.youtube.com/thadanderson)
-- [Instagram](http://www.instagram.com/thadanderson)
