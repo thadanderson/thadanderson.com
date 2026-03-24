@@ -109,8 +109,7 @@ function isActive(href: string) {
     <footer>
       <div class="footer-inner">
         <div class="footer-brand">
-          <p class="footer-name">Thad Anderson</p>
-          <p class="footer-tagline">percussionist, composer, &amp; arts leader</p>
+          <p class="footer-name"><a href="/">Thad Anderson</a></p>
           <ul class="footer-social">
             <li><a href="https://thadanderson.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a></li>
             <li><a href="https://soundcloud.com/thadanderson" target="_blank" rel="noopener">SoundCloud</a></li>
@@ -432,16 +431,16 @@ function isActive(href: string) {
   }
 
   .footer-name {
+    margin-bottom: 0.75rem;
+  }
+  .footer-name a {
     color: #fff;
     font-weight: 600;
     font-size: 1rem;
-    margin-bottom: 0.25rem;
+    text-decoration: none;
   }
-
-  .footer-tagline {
-    font-size: 0.85rem;
+  .footer-name a:hover {
     color: var(--accent);
-    margin: 0 0 1rem;
   }
 
   .footer-social {
