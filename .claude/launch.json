@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "Astro Dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "/usr/local/bin/node",
+      "runtimeArgs": ["node_modules/.bin/astro", "dev"],
       "port": 4321
     },
     {

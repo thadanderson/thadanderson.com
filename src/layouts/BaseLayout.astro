@@ -149,7 +149,7 @@ function isActive(href: string) {
     --nav-bg: #1a1a1a;
     --nav-text: rgba(255, 255, 255, 0.85);
     --nav-text-active: #ffffff;
-    --max-w: 900px;
+    --max-w: 1400px;
     --nav-h: 58px;
     --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
   }
@@ -182,7 +182,7 @@ function isActive(href: string) {
   nav {
     max-width: var(--max-w);
     margin: 0 auto;
-    padding: 1rem 1.5rem;
+    padding: 1rem clamp(1.5rem, 4vw, 3rem);
     display: flex;
     align-items: center;
   }
@@ -266,7 +266,7 @@ function isActive(href: string) {
   main {
     max-width: var(--max-w);
     margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
+    padding: 3rem clamp(1.5rem, 4vw, 3rem) 4rem;
   }
 
   /* ── Typography ─────────────────────────────────────────────── */
@@ -420,7 +420,7 @@ function isActive(href: string) {
   .footer-inner {
     max-width: var(--max-w);
     margin: 0 auto;
-    padding: 3rem 1.5rem 2rem;
+    padding: 3rem clamp(1.5rem, 4vw, 3rem) 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -461,7 +461,7 @@ function isActive(href: string) {
   .footer-bottom {
     max-width: var(--max-w);
     margin: 0 auto;
-    padding: 1rem 1.5rem 2rem;
+    padding: 1rem clamp(1.5rem, 4vw, 3rem) 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
