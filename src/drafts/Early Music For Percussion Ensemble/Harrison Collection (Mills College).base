@@ -1,0 +1,21 @@
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.folder == "Unpublished/Early Music For Percussion Ensemble/Lou Harrison Historic Percussion Instrument Collection Project/Instrument Records"
+    order:
+      - file.name
+      - instrument_number
+      - instrument_description
+      - known_works_that_use_this_instrument
+      - instrument_family
+    sort:
+      - property: original_owner
+        direction: DESC
+    columnSize:
+      file.name: 338
+      note.instrument_number: 164
+      note.instrument_description: 1387
+      note.catalogued_date: 146
+      note.collection: 318

@@ -1,0 +1,26 @@
+filters:
+  and:
+    - file.folder == "src/drafts/Early Music For Percussion Ensemble/Early American Percussion Ensemble Images/Image Records"
+views:
+  - type: table
+    name: Table
+    order:
+      - file.name
+      - images
+      - year
+      - date
+      - notes
+      - known_publications
+      - keywords
+      - archive_location
+    sort:
+      - property: file.name
+        direction: ASC
+      - property: year
+        direction: ASC
+    columnSize:
+      file.name: 112
+      note.images: 147
+  - type: cards
+    name: Cards
+    image: note.images

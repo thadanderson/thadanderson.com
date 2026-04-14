@@ -1,0 +1,16 @@
+Below are recent programs and activity that represent broad experiences in teaching, service, and research & creative activities.
+
+[[2026-01-30 Bach Festival Orchestra.pdf]]  
+[[2025-10-01 Percussive Notes President's Message.pdf]]  
+[[2025-07-30 BUTI Young Artist Percussion Ensemble.pdf]]  
+[[2025-06-22 UCF Percussion Summer Institute.pdf]]  
+[[2025-06-04 ANSWERS at the Iceberg Institute.pdf]]  
+[[2025-01-11 Orlando Philharmonic Orchestra.pdf]]  
+[[2024-03-07 UCF Percussion Ensemble.pdf]]  
+[[2024-02-22 Viera High School Percussion Ensemble.pdf]]  
+[[2023-11-02 UCF New Music Ensemble.pdf]]  
+[[2023-06-01 Percussive Notes - John Cage's Fourth Construction, An Imaginary Landscape.pdf]]  
+[[2023-04-10 High School Percussion Ensemble Showcase Program.pdf]]  
+[[2022-12-13 ANSWERS at Will's Pub, Orlando, FL.pdf]]  
+[[2021-11-04 UCF New Music Ensemble.pdf]]  
+[[2021-09-09 Anderson Faculty Recital.pdf]]  

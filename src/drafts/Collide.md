@@ -1,0 +1,4 @@
+**Collide Contemporary Music Series** and **New Music Ensemble**  
+University of Central Florida
+
+Founded in 2011 by artistic director Thad Anderson, the Collide Contemporary Music Series presents multiple “new music” events each semester on the campus of the University of Central Florida. Past guest composers and artists include: Paul Lansky, Marc Mellits, Jonathan Kolm, Zack Browning, Matthew Barnson, Billy Ryan, Charles Griffin, Meehan/Perkins Duo, Third Coast Percussion, Samuel Solomon, Matthew Coley, Michelle Schumann, line upon line percussion, Bill Solomon, Owen Weaver, Bob McCormick, Ian Rosenbaum, Adam Silverman, Trevor Saint, Ensemble P4, and Robert Dick. In addition to collaborating with composers and presenting guest artist concerts, Collide serves as a vehicle to present faculty and student chamber music and is often used as a laboratory to feature student compositions.

@@ -1,0 +1,18 @@
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.folder == "Unpublished/Early Music For Percussion Ensemble/First Period (1930-1943)"
+    order:
+      - file.name
+      - composer
+      - title
+      - year
+      - instrumentation
+      - players
+      - sources
+    columnSize:
+      file.name: 349
+      note.title: 275
+      note.year: 69

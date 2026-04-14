@@ -1,0 +1,1 @@
+From time to time, I have composed short tracks that have been used for commercials, DVD menus, and other video projects.  These tracks are all available to be licensed or I am available to create a custom track for your project. Check a few of the shorts in the following playlist.
