@@ -168,6 +168,9 @@ function isActive(href: string) {
     background: var(--bg);
     line-height: 1.7;
     font-size: 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   /* ── Header / Nav ────────────────────────────────────────────── */
@@ -264,9 +267,11 @@ function isActive(href: string) {
 
   /* ── Main content ────────────────────────────────────────────── */
   main {
+    flex: 1;
+    width: 100%;
     max-width: var(--max-w);
     margin: 0 auto;
-    padding: 3rem clamp(1.5rem, 4vw, 3rem) 4rem;
+    padding: 3rem clamp(1.5rem, 4vw, 3rem) 2rem;
   }
 
   /* ── Typography ─────────────────────────────────────────────── */
